@@ -167,17 +167,178 @@ int findEmployee(SL* employees)
 	return -1;
 }
 
-// 查找员工id——显示员工对应信息
+// 查找并打印员工信息
+void findEmployee_print(SL* employees)
+{
+	// 调用findEmployee函数
+	int pos = findEmployee(employees);
+	if (pos != -1)
+	{
+		printf("\t员工id：%d", employees->SeqList[pos].id);
+		printf("\t姓名：%s", employees->SeqList[pos].name);
+		printf("\t性别：%s", employees->SeqList[pos].gender);
+		printf("\t生日：%d-%02d-%02d\n", employees->SeqList[pos].birthday.year,
+			employees->SeqList[pos].birthday.month,
+			employees->SeqList[pos].birthday.day);
+		printf("\t学历：%s", employees->SeqList[pos].qualification);
+		printf("\t职业：%s", employees->SeqList[pos].job);
+		printf("\t电话：%s", employees->SeqList[pos].teleNum);
+		printf("\t地址：%s\n", employees->SeqList[pos].location);
+	}
+	else
+	{
+		printf("查无此人\n");
+	}
+}
 
-
-// 查找员工姓名——显示员工对应信息
-
-
-// 查找员工
-
+// 修改菜单
+void menuForModify()
+{
+	printf("***修改内容*****\n");
+	printf("*1. 员工id\n");
+	printf("*2. 姓名\n");
+	printf("*3. 性别\n");
+	printf("*4. 生日\n");
+	printf("*5. 学历\n");
+	printf("*6. 职业\n");
+	printf("*7. 电话\n");
+	printf("*8. 地址\n");
+	printf("*9. 退出修改\n");
+	printf("**************\n");
+}
+void menuForBirthday()
+{
+	printf("**************\n");
+	printf("*1. 年\n");
+	printf("*2. 月\n");
+	printf("*3. 日\n");
+	printf("*4. 退出修改\n");
+	printf("**************\n");
+}
 
 // 修改员工
-
+void modifyEmployee(SL* employees)
+{
+	// 调用查找函数找出需要修改的员工
+	int pos = findEmployee(employees);
+	if (pos == -1)
+	{
+		printf("查无此人\n");
+		return;
+	}
+	int choice = 0;
+	choose:
+	menuForModify();
+	printf("请选择需要修改的内容：");
+	while (scanf(" %d", &choice))
+	{
+		switch (choice)
+		{
+		case 1:
+			printf("请输入需要修改的id：");
+			scanf("%d", &(employees->SeqList[pos].id));
+			printf("修改完成\n");
+			break;
+		case 2:
+			printf("请输入需要修改的姓名：");
+			scanf("%s", employees->SeqList[pos].name);
+			printf("修改完成\n");
+			break;
+		case 3:
+			printf("请输入需要修改的性别：");
+			scanf("%s", employees->SeqList[pos].gender);
+			printf("修改完成\n");
+			break;
+		case 4:
+		{
+			int ret = 0;
+			menuForBirthday();
+			printf("请选择生日中需要修改的字段：");
+			while (scanf("%d", &ret))
+			{
+				switch (ret)
+				{
+				case 1:
+					printf("请输入需要修改的年：");
+				setYear:
+					scanf("%d", &(employees->SeqList[pos].birthday.year));
+					if (employees->SeqList[pos].birthday.year < 0)
+					{
+						printf("年份不合法，请重新输入需要修改的年份：\n");
+						goto setYear;
+					}
+					
+					printf("修改完成\n");
+					break;
+				case 2:
+					printf("请输入需要修改的月：");
+				setMonth:
+					scanf("%d", &(employees->SeqList[pos].birthday.month));
+					if (employees->SeqList[pos].birthday.month < 1 ||
+						employees->SeqList[pos].birthday.month > 12)
+					{
+						printf("月份不合法，请重新输入月份：\n");
+						goto setMonth;
+					}
+					printf("修改完成\n");
+					break;
+				case 3:
+					printf("请输入需要修改的日：");
+				setDay:
+					scanf("%d", &(employees->SeqList[pos].birthday.day));
+					if (employees->SeqList[pos].birthday.month < 1 ||
+						employees->SeqList[pos].birthday.month > 12 ||
+						(employees->SeqList[pos].birthday.day < 1 ||
+							employees->SeqList[pos].birthday.day >
+							GetMonthDays(employees->SeqList[pos].birthday.year,
+								employees->SeqList[pos].birthday.month)))
+					{
+						printf("日不合法，请重新输入日：\n");
+						goto setDay;
+					}
+					printf("修改完成\n");
+					break;
+				case 4:
+					goto choose;
+				default:
+					printf("请重新按照菜单选择\n");
+					break;
+				}
+				menuForBirthday();
+				printf("请选择生日中需要修改的字段：");
+			}
+		}
+			break;
+		case 5:
+			printf("请输入需要修改的学历：");
+			scanf("%s", employees->SeqList[pos].qualification);
+			printf("修改完成\n");
+			break;
+		case 6:
+			printf("请输入需要修改的职业：");
+			scanf("%s", employees->SeqList[pos].job);
+			printf("修改完成\n");
+			break;
+		case 7:
+			printf("请输入需要修改的电话：");
+			scanf("%s", employees->SeqList[pos].teleNum);
+			printf("修改完成\n");
+			break;
+		case 8:
+			printf("请输入需要修改的地址：");
+			scanf("%s", employees->SeqList[pos].location);
+			printf("修改完成\n");
+			break;
+		case 9:
+			return;
+		default:
+			printf("请重新选择\n");
+			break;
+		}
+		menuForModify();
+		printf("请选择需要修改的内容：");
+	}
+}
 
 // 插入数据
 void insertEmployee(SL* employees)
@@ -338,6 +499,12 @@ void destroyEmployee(SL* employees)
 // 打印所有员工信息
 void printEmployees(SL* employees)
 {
+	// 没有员工直接返回
+	if (employees->size == 0)
+	{
+		printf("暂无数据\n");
+		return;
+	}
 	for (int i = 0; i < employees->size; i++)
 	{
 		printf("第%d名员工:\n", i + 1);

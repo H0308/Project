@@ -38,10 +38,12 @@ void menuForFind();
 // 查找员工——返回下标
 int findEmployee(SL* employees);
 // 查找员工——显示对应员工信息
-void find(SL* a);
+void findEmployee_print(SL* employees);
 
+// 修改菜单
+void menuForModify();
 // 修改员工信息
-void remedy(SL* a);
+void modifyEmployee(SL* employees);
 
 // 插入员工信息
 void insertEmployee(SL* employees);

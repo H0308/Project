@@ -25,10 +25,10 @@ int main()
 			employeeInfoGet(&employees);
 			break;
 		case 2:
-			// 查找员工信息
+			findEmployee_print(&employees);
 			break;		
 		case 3:
-			// 修改员工信息
+			modifyEmployee(&employees);
 			break;
 		case 4:
 			insertEmployee(&employees);
@@ -46,9 +46,8 @@ int main()
 			destroyEmployee(&employees);
 			printf("谢谢使用");
 			return 1;
-			break;
 		default:
-			printf("请按照菜单重新输入：");
+			printf("请按照菜单重新输入\n");
 			break;
 		}
 		menu();
