@@ -25,10 +25,10 @@ int main()
 			employeeInfoGet(&employees);
 			break;
 		case 2:
-			find(&employees);
+			// 查找员工信息
 			break;		
 		case 3:
-			remedy(&employees);
+			// 修改员工信息
 			break;
 		case 4:
 			insertEmployee(&employees);

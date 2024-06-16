@@ -168,133 +168,16 @@ int findEmployee(SL* employees)
 }
 
 // 查找员工id——显示员工对应信息
-void findnumber(SL* a, int id)
-{
-	int i = 0;
-	while (i != a->size) 
-	{
-		if (id == a->SeqList[i].id) 
-		{
-			break;
-		}
-		i++;
-	}
-	printf("\n编号:%d 姓名:%s 性别:%s 出生日期%d年%d月%d日 \n学历:%s 职业:%s 电话:%s 地址:%s\n",
-		a->SeqList[i].id, a->SeqList[i].name, a->SeqList[i].gender,
-		a->SeqList[i].birthday.year, a->SeqList[i].birthday.month,
-		a->SeqList[i].birthday.day, a->SeqList[i].qualification,
-		a->SeqList[i].job, a->SeqList[i].teleNum, a->SeqList[i].location);
 
-}
-	// 查找员工姓名——显示员工对应信息
-	void findname(SL* a, char* name) 
-	{
-		int i = 0;
-		while (i != a->size) 
-		{
-			int j = 0;
-			while (a->SeqList[i].name[j] == name[j] && name[j] != NULL) 
-			{
-				j++;
-			}
-			if (j == strlen(name))
-			{
-				printf("\n编号:%d 姓名:%s 性别:%s 出生日期%d年%d月%d日 \n学历:%s 职业:%s 电话:%s 地址:%s\n",
-					a->SeqList[i].id, a->SeqList[i].name, a->SeqList[i].gender,
-					a->SeqList[i].birthday.year, a->SeqList[i].birthday.month,
-					a->SeqList[i].birthday.day, a->SeqList[i].qualification,
-					a->SeqList[i].job, a->SeqList[i].teleNum, a->SeqList[i].location);
-			}
-			i++;
-		}
-	}
+
+// 查找员工姓名——显示员工对应信息
+
+
 // 查找员工
-void find(SL* a)
-{
-	printf("请输入需要怎么查找 1.通过编号查找 2.通过姓名查找：");
-	int num = 0;
-	scanf("%d", &num);
-	if (num == 1) 
-	{
-		printf("请输入需要查找的编号：");
-		int id = 0;
-		scanf("%d", &id);
-		findnumber(a, id);
-	}
-	else 
-	{
-		printf("请输入需要查找的姓名：");
-		char name[50];
-		scanf(" %s", name);
-		findname(a, name);
-	}
-}
+
 
 // 修改员工
-void remedy(SL* a) 
-{
-	printf("请输入需要修改信息的人员编号：");
-	int id = 0;
-	scanf("%d", &id);
-	int i = 0;
-	while (i != a->size) {
-		if (id == a->SeqList[i].id) 
-		{
-			break;
-		}
-		i++;
-	}
-	printf("输入需要修改的信息编号: 1.编号 2.姓名 3.性别 4.出生日期 年 月 日 5.学历 6.职业 7.电话 8.地址：");
-	int num = 0;
-	scanf("%d", &num);
-	int id1 = 0;
-	char name[50];
-	char gender[10];
-	int year, month, day;
-	char qualification[20];
-	char job[30];
-	char teleNum[15];
-	char location[50];
-	switch (num) 
-	{
-	case 1:
-		printf("请输入修改后id：");
-		scanf("%d", &id1);
-		a->SeqList[i].id = id1; break;
-	case 2:
-		printf("请输入修改值后姓名：");
-		scanf(" %s", name);
-		strcpy(a->SeqList[i].name, name); break;
-	case 3:printf("请输入修改后性别：");
-		scanf(" %s", gender);
-		strcpy(a->SeqList[i].gender, gender); break;
-	case 4:
-		printf("请输入修改后出生日期：");
-	modifyBirth:
-		scanf("%d %d %d", &year, &month, &day);
-		if (month < 1 || month > 12 ||
-			(day < 1 ||
-				day > GetMonthDays(year, month)))
-		{
-			printf("请重新输入生日：\n");
-			goto modifyBirth;
-		}
-		a->SeqList[i].birthday.year = year; a->SeqList[i].birthday.month = month; a->SeqList[i].birthday.day = day; break;
-	case 5:printf("请输入修改后学历：");
-		scanf(" %s", qualification);
-		strcpy(a->SeqList[i].qualification, qualification); break;
-	case 6:printf("请输入修改后工作：");
-		scanf(" %s", job);
-		strcpy(a->SeqList[i].job, job); break;
-	case 7:printf("请输入修改后电话：");
-		scanf(" %s", teleNum);
-		strcpy(a->SeqList[i].teleNum, teleNum); break;
-	case 8:printf("请输入修改后电话：");
-		scanf(" %s", location);
-		strcpy(a->SeqList[i].location, location); break;
-	}
-	printf("修改完成\n");
-}
+
 
 // 插入数据
 void insertEmployee(SL* employees)
@@ -372,7 +255,7 @@ void printSortedEmp(employee* tmp, int size)
 		printf("\t员工id：%d", tmp[i].id);
 		printf("\t姓名：%s", tmp[i].name);
 		printf("\t性别：%s", tmp[i].gender);
-		printf("\t生日：%d-%d-%d\n", tmp[i].birthday.year,
+		printf("\t生日：%d-%02d-%02d\n", tmp[i].birthday.year,
 			tmp[i].birthday.month,
 			tmp[i].birthday.day);
 		printf("\t学历：%s", tmp[i].qualification);
@@ -461,7 +344,7 @@ void printEmployees(SL* employees)
 		printf("\t员工id：%d", employees->SeqList[i].id);
 		printf("\t姓名：%s", employees->SeqList[i].name);
 		printf("\t性别：%s", employees->SeqList[i].gender);
-		printf("\t生日：%d-%d-%d\n", employees->SeqList[i].birthday.year,
+		printf("\t生日：%d-%02d-%02d\n", employees->SeqList[i].birthday.year,
 			employees->SeqList[i].birthday.month,
 			employees->SeqList[i].birthday.day);
 		printf("\t学历：%s", employees->SeqList[i].qualification);
