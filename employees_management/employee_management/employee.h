@@ -2,6 +2,8 @@
 
 #include "SeqList.h"
 
+//typedef int (*cmp)(const void*, const void*);
+
 typedef struct SeqList_dynamic SL;
 
 typedef struct birthday

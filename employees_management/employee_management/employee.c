@@ -206,15 +206,17 @@ void menuForModify()
 	printf("*9. 退出修改\n");
 	printf("**************\n");
 }
-void menuForBirthday()
-{
-	printf("**************\n");
-	printf("*1. 年\n");
-	printf("*2. 月\n");
-	printf("*3. 日\n");
-	printf("*4. 退出修改\n");
-	printf("**************\n");
-}
+
+// 生日菜单
+//void menuForBirthday()
+//{
+//	printf("**************\n");
+//	printf("*1. 年\n");
+//	printf("*2. 月\n");
+//	printf("*3. 日\n");
+//	printf("*4. 退出修改\n");
+//	printf("**************\n");
+//}
 
 // 修改员工
 void modifyEmployee(SL* employees)
@@ -224,10 +226,9 @@ void modifyEmployee(SL* employees)
 	if (pos == -1)
 	{
 		printf("查无此人\n");
-		return;
+		pos = findEmployee(employees);
 	}
 	int choice = 0;
-	choose:
 	menuForModify();
 	printf("请选择需要修改的内容：");
 	while (scanf(" %d", &choice))
@@ -251,7 +252,7 @@ void modifyEmployee(SL* employees)
 			break;
 		case 4:
 		{
-			int ret = 0;
+			/*int ret = 0;
 			menuForBirthday();
 			printf("请选择生日中需要修改的字段：");
 			while (scanf("%d", &ret))
@@ -306,8 +307,24 @@ void modifyEmployee(SL* employees)
 				}
 				menuForBirthday();
 				printf("请选择生日中需要修改的字段：");
+			}*/
+			modifyBirth:
+			printf("请输入修改后的年月日，以空格间隔：");
+			scanf("%d%*c%d%*c%d", &(employees->SeqList[pos].birthday.year),
+				&(employees->SeqList[pos].birthday.month),
+				&(employees->SeqList[pos].birthday.day));
+			if (employees->SeqList[pos].birthday.month < 1 || 
+				employees->SeqList[pos].birthday.month > 12 ||
+				(employees->SeqList[pos].birthday.day < 1 ||
+					employees->SeqList[pos].birthday.day > 
+					GetMonthDays(employees->SeqList[pos].birthday.year, 
+						employees->SeqList[pos].birthday.month)))
+			{
+				printf("日期不合法，请重新输入生日\n");
+				goto modifyBirth;
 			}
 		}
+			printf("修改完成\n");
 			break;
 		case 5:
 			printf("请输入需要修改的学历：");
@@ -427,6 +444,7 @@ void printSortedEmp(employee* tmp, int size)
 }
 
 // 排序主体
+#if 0
 void sortEmployees(SL* employees)
 {
 	int choice = 0;
@@ -459,6 +477,41 @@ void sortEmployees(SL* employees)
 			menuForSort();
 			printf("请重新按照菜单输入：");
 			break;
+		}
+		menuForSort();
+		printf("请选择需要排序的字段：");
+	}
+}
+#endif
+// 转移表优化
+void sortEmployees(SL* employees)
+{
+	int choice = 0;
+	//employee* tmp;
+	//int size = employees->size;
+	//tmp = (employee*)malloc(sizeof(employee) * size);
+	//assert(tmp);
+	//memcpy(tmp, employees->SeqList, sizeof(employee) * size);
+	menuForSort();
+	printf("请选择需要排序的字段：");
+	// 定义函数指针数组
+	int (*cmp[4])(const void*, const void*) = {0, cmp_id, cmp_name, birthdayCmp};
+	//cmp arr[4] = {0, cmp_id, cmp_name, birthdayCmp};
+	while (scanf("%d", &choice))
+	{
+		if (choice >= 1 && choice <= 3)
+		{
+			qsort(employees->SeqList, employees->size, sizeof(employee), cmp[choice]);
+			printSortedEmp(employees->SeqList, employees->size);
+		}
+		else if (choice == 4)
+		{
+			break;
+		}
+		else
+		{
+			menuForSort();
+			printf("请重新输入：");
 		}
 		menuForSort();
 		printf("请选择需要排序的字段：");
